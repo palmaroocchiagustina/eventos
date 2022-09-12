@@ -1,7 +1,7 @@
 
 //
 
-const button = document.getElementById ("button");
+const buscar = document.getElementById ("buscar");
 const input = document.getElementById ("ingreso");
 const card1 = document.getElementById ("remera");
 const card2 = document.getElementById ("blazer");
@@ -14,6 +14,7 @@ const imagen = document.getElementById("imagen");
 const nombre = document.getElementById("nombre");
 const precio = document.getElementById("precio");
 const ul = document.getElementById("lista");
+const div = document.getElementById("seleccion");
 
 
 
@@ -23,16 +24,16 @@ const ul = document.getElementById("lista");
 
 const prendas = [
 
-    {nombre : "Remera",precio: 2000, id:"remera2000"},
-    {nombre : "Top rayas",precio: 3000, id:"top_rayas3000"},
-    {nombre : "Jeans",precio: 10000,id: "jeans10000"},
-    {nombre : "Campera de jeans",precio: 12000,id: "campera1-jeans12000"},
-    {nombre : "Zapatillas",precio: 20000, id:"zapatillas20000"},
-    {nombre : "Blazer de lino",precio: 20000, id:"blazer_lino20000"},
+    {imagen : "remera-negra.jpg", nombre: "remera",precio: 2000, id:"remera2000"},
+    {imagen : "top rayado.jpg",nombre : "top rayas",precio: 3000, id:"top_rayas3000"},
+    {imagen : "jeans.jpg",nombre : "jeans",precio: 10000,id: "jeans10000"},
+    {imagen : "campera de jeans.jpg",nombre : "campera de jeans",precio: 12000,id: "campera1-jeans12000"},
+    {imagen : "zapatillas cara.jpg",nombre : "zapatillas",precio: 20000, id:"zapatillas20000"},
+    {imagen : "blazer rosa.jpg",nombre : "blazer de lino",precio: 20000, id:"blazer_lino20000"},
   
   ]
 
-  //pRODUCTOS(NOMBRE, PRECIO)
+  //pRODUCTOS (constructor)
 
 function Productos(imagen, nombre, precio, id) {
     
@@ -45,14 +46,36 @@ function Productos(imagen, nombre, precio, id) {
 
 // modificar el DOM
 
-function prendaSeleccionada(prendas) {
+function prendaSeleccionada(arr) {
+    let html="";
+        for (const item of arr) {
+        
+            html=`<article><div class="card p-3" style="width: 18rem;">
+            <img src="../img/${item.imagen}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="">${item.nombre}</h5>
+              <p class="">${item.precio}</p>
+              <a href="#" class="btn btn-primary">Comprar</a>
+            </div></article>
+            `
+            ul.innerHTML += html;
+        
+        }
+}
+
+prendaSeleccionada(prendas);
+
+
+
+
+/*function prendaSeleccionada(prendas) {
     
         for (const prenda of prendas) {
 
             const li = document.createElement('li')
         
-            li.innerHTML=`<article><div class="card p-3" id=${prenda.nombre}  style="width: 18rem;">
-            <img src="${prenda.imagen}" class="card-img-top" alt="...">
+            li.innerHTML=`<article><div class="card p-3" style="width: 18rem;">
+            <img src="../img/${prenda.imagen}" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="">${prenda.nombre}</h5>
               <p class="">${prenda.precio}</p>
@@ -62,8 +85,7 @@ function prendaSeleccionada(prendas) {
             ul.append(li)
         
         }
-}
-prendaSeleccionada(prendas);
+}*/
 //funcion generica de push 
 
 function cargarProductos(arr, valor) {
@@ -72,22 +94,21 @@ function cargarProductos(arr, valor) {
 }
 
 
-//fc filtrar por nombre
+//fc filtrar por nombres
 
 function filtrarNombre(arr, filtro) {
 
-        let filtrado = arr.filter ((el)=>{
+        let filtrado = arr.filter((el)=>{
             
             return el.nombre.includes(filtro);
-    
+            
         });
-
+  
+        return filtrado;
         
-       return filtrado; 
-       
+        
     }
-    
-
+   
 //eventos
 
 ingreso.addEventListener("input", ()=>{
@@ -98,29 +119,13 @@ ingreso.addEventListener("input", ()=>{
 }
 )
 
-button.addEventListener("click",()=>{
-  
-    const prendaSelect = filtrarNombre(prendas,ingreso.value);
-    console.log(prendaSelect);
-    //prendaSeleccionada(prendas);
-    ocultar(prendas,filtrarNombre(prendas,filtro));
+buscar.addEventListener("click",()=>{
+   
+    let prendaFiltro = filtrarNombre(prendas,ingreso.value);
+    console.log(prendaFiltro);
+    ul.innerHTML="";
+    prendaSeleccionada(prendaFiltro)
 
 })
-
-
-
-function ocultar(prendas,filtrado) {
-    for (const prenda of prendas) {
-        let x = document.getElementById(Productos.id);
-        if (filtrado.id != prenda.id) {
-        
-            x.style.display = "none"
-            
-        } else {
-            x.style.display = "block"
-        }
-        
-        }   
-}
 
 

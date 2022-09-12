@@ -1,3 +1,11 @@
+
+* {
+    
+    list-style: none;
+}
+
+
+
 .article {
 
     display:grid;
@@ -9,8 +17,3 @@
 
 
 }
-.claseDiv{
-
-    display: none;
-    
-    }
