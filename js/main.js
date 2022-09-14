@@ -63,7 +63,7 @@ function prendaSeleccionada(arr) {
             ul.innerHTML += html;
 
         }
-       btnComprar();
+    
 }
 
 prendaSeleccionada(prendas);
@@ -101,24 +101,3 @@ prendaSeleccionada(prendaFiltro);
 
 })
 
-function btnComprar() {
-
-  prendas.forEach(prenda => {
-    document.querySelector(`#btn-agregar${prenda.id}`).addEventListener("click",()=>{
-
-        cargarProductos(prenda);
-    })
-    
-  });
-
-
-}
-
-let carrito=[];
-//funcion de push ahahaha
-
-function cargarProductos(prenda) {
-    
-    carrito.push(prenda);
-    console.log(carrito);
-}
