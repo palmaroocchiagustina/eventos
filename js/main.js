@@ -115,7 +115,7 @@ function btnComprar() {
 }
 
 let carrito=[];
-//funcion de push 
+//funcion de push ahahaha
 
 function cargarProductos(prenda) {
     
