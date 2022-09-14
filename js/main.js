@@ -15,11 +15,9 @@ const nombre = document.getElementById("nombre");
 const precio = document.getElementById("precio");
 const comprar = document.getElementById("comprar");
 const ul = document.querySelector("#lista");
-const div = document.querySelector(".carrito");
+const div1 = document.getElementsByClassName("container");
 
 
-
-// solo filtra si es con mayuscula
 
 //stock
 
@@ -63,7 +61,7 @@ function prendaSeleccionada(arr) {
             ul.innerHTML += html;
 
         }
-       btnComprar();
+      btnComprar();
 }
 
 prendaSeleccionada(prendas);
@@ -111,7 +109,6 @@ function btnComprar() {
     
   });
 
-
 }
 
 let carrito=[];
@@ -120,5 +117,6 @@ let carrito=[];
 function cargarProductos(prenda) {
     
     carrito.push(prenda);
-    console.log(carrito);
 }
+
+cargarProductos();
