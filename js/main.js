@@ -33,6 +33,35 @@ function Productos(imagen, nombre, precio, id) {
 }
 
 // modificar el DOM
+function prendaSeleccionada(arr) {
+    let html="";
+        for (const item of arr) {
+        
+            html=`<article><div class="card p-3" style="width: 18rem;">
+            <img src="../img/${item.imagen}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="">${item.nombre}</h5>
+              <p class="">${item.precio}</p>
+              <button class="carrito" id="btn-agregar${item.id}">Comprar</button>
+
+            </div></article> 
+            `
+            ul.innerHTML += html;
+
+        }
+      btnComprar();
+}
+prendaSeleccionada(prendas)
+
+function btnComprar(){
+    prendas.forEach(prenda=>{
+        document.querySelector(`#btn-comprar${item.id}`).addEventListener("click",()=>{
+            agregarAlCarrito(prenda);
+        })
+    })
+}
+
+/*
 
 function cards(){
     prendas.forEach(item=>{
@@ -44,17 +73,6 @@ function cards(){
     })
     btnComprar();
 }
-
-cards(prendas);
-function btnComprar(){
-    prendas.forEach(prenda=>{
-        document.querySelector(`#btn-comprar${item.id}`).addEventListener("click",()=>{
-            agregarAlCarrito(prenda);
-        })
-    })
-}
-
-/*
 function prendaSeleccionada(arr) {
     let html="";
         for (const item of arr) {
