@@ -1,21 +1,10 @@
 
 //
 
-const buscar = document.getElementById ("buscar");
-const input = document.getElementById ("ingreso");
-const card1 = document.getElementById ("remera");
-const card2 = document.getElementById ("blazer");
-const card3 = document.getElementById ("camperajeans");
-const card4 = document.getElementById ("jeans");
-const card5 = document.getElementById ("toprayas");
-const card6 = document.getElementById ("zapatillas");
-
-const imagen = document.getElementById("imagen");
-const nombre = document.getElementById("nombre");
-const precio = document.getElementById("precio");
-const comprar = document.getElementById("comprar");
-const ul = document.querySelector("#lista");
-const div1 = document.getElementsByClassName("container");
+const buscar = document.querySelector ("#buscar");
+const input = document.querySelector ("#ingreso");
+const container = document.querySelector(".container");
+const carritoDiv = document.querySelector(".carrito");
 
 
 
@@ -45,6 +34,27 @@ function Productos(imagen, nombre, precio, id) {
 
 // modificar el DOM
 
+function cards(){
+    prendas.forEach(item=>{
+        container.innerHTML += `<div style="padding: 20px; background-color:orange; border: 2px solid black;">
+        <h4>${item.nombre}</h4>
+        <p>$${item.precio}</p>
+        <button class="btnCarrito" id="btn-comprar${item.id}">Comprar</button>
+        </div>`
+    })
+    btnComprar();
+}
+
+cards(prendas);
+function btnComprar(){
+    prendas.forEach(prenda=>{
+        document.querySelector(`#btn-comprar${item.id}`).addEventListener("click",()=>{
+            agregarAlCarrito(prenda);
+        })
+    })
+}
+
+/*
 function prendaSeleccionada(arr) {
     let html="";
         for (const item of arr) {
@@ -119,4 +129,4 @@ function cargarProductos(prenda) {
     carrito.push(prenda);
 }
 
-cargarProductos();
+cargarProductos();*/
