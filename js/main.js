@@ -13,8 +13,9 @@ const card6 = document.getElementById ("zapatillas");
 const imagen = document.getElementById("imagen");
 const nombre = document.getElementById("nombre");
 const precio = document.getElementById("precio");
-const ul = document.getElementById("lista");
-const div = document.getElementById("seleccion");
+const comprar = document.getElementById("comprar");
+const ul = document.querySelector("#lista");
+const div = document.querySelector(".carrito");
 
 
 
@@ -55,77 +56,69 @@ function prendaSeleccionada(arr) {
             <div class="card-body">
               <h5 class="">${item.nombre}</h5>
               <p class="">${item.precio}</p>
-              <a href="#" class="btn btn-primary">Comprar</a>
-            </div></article>
+              <button class="carrito" id="btn-agregar${item.id}">Comprar</button>
+
+            </div></article> 
             `
             ul.innerHTML += html;
-        
+
         }
+       btnComprar();
 }
 
 prendaSeleccionada(prendas);
-
-
-
-
-/*function prendaSeleccionada(prendas) {
-    
-        for (const prenda of prendas) {
-
-            const li = document.createElement('li')
-        
-            li.innerHTML=`<article><div class="card p-3" style="width: 18rem;">
-            <img src="../img/${prenda.imagen}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="">${prenda.nombre}</h5>
-              <p class="">${prenda.precio}</p>
-              <a href="#" class="btn btn-primary">Comprar</a>
-            </div></article>
-            `
-            ul.append(li)
-        
-        }
-}*/
-//funcion generica de push 
-
-function cargarProductos(arr, valor) {
-    
-    return arr.push(valor);
-}
-
-
 //fc filtrar por nombres
 
 function filtrarNombre(arr, filtro) {
 
-        let filtrado = arr.filter((el)=>{
-            
-            return el.nombre.includes(filtro);
-            
-        });
-  
-        return filtrado;
+    let filtrado = arr.filter((el)=>{
         
+        return el.nombre.includes(filtro);
         
-    }
-   
+    });
+
+    return filtrado;
+    
+    
+}
+
 //eventos
 
 ingreso.addEventListener("input", ()=>{
 
-    let prendaFiltro = filtrarNombre(prendas,ingreso.value);
-    console.log(prendaFiltro);
+let prendaFiltro = filtrarNombre(prendas,ingreso.value);
+console.log(prendaFiltro);
 
 }
 )
 
 buscar.addEventListener("click",()=>{
-   
-    let prendaFiltro = filtrarNombre(prendas,ingreso.value);
-    console.log(prendaFiltro);
-    ul.innerHTML="";
-    prendaSeleccionada(prendaFiltro)
+
+let prendaFiltro = filtrarNombre(prendas,ingreso.value);
+console.log(prendaFiltro);
+ul.innerHTML="";
+prendaSeleccionada(prendaFiltro);
 
 })
 
+function btnComprar() {
 
+  prendas.forEach(prenda => {
+    document.querySelector(`#btn-agregar${prenda.id}`).addEventListener("click",()=>{
+
+        cargarProductos(prenda);
+    })
+    
+  });
+
+
+}
+
+let carrito=[];
+//funcion de push 
+
+function cargarProductos(prenda) {
+    
+    carrito.push(prenda);
+    console.log(carrito);
+}
