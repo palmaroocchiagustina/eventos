@@ -1,12 +1,25 @@
 
 //
 
-const buscar = document.querySelector ("#buscar");
-const input = document.querySelector ("#ingreso");
-const container = document.querySelector(".container");
-const carritoDiv = document.querySelector(".carrito");
+const buscar = document.getElementById ("buscar");
+const input = document.getElementById ("ingreso");
+const card1 = document.getElementById ("remera");
+const card2 = document.getElementById ("blazer");
+const card3 = document.getElementById ("camperajeans");
+const card4 = document.getElementById ("jeans");
+const card5 = document.getElementById ("toprayas");
+const card6 = document.getElementById ("zapatillas");
+
+const imagen = document.getElementById("imagen");
+const nombre = document.getElementById("nombre");
+const precio = document.getElementById("precio");
+const comprar = document.getElementById("comprar");
+const ul = document.querySelector(".cards");
+const div = document.querySelector(".carrito");
 
 
+
+// solo filtra si es con mayuscula
 
 //stock
 
@@ -33,33 +46,84 @@ function Productos(imagen, nombre, precio, id) {
 }
 
 // modificar el DOM
+
 function prendaSeleccionada(arr) {
-    let html="";
-        for (const item of arr) {
-        
+    
+        for (const item of prendas) {
+            let html= "";
             html=`<article><div class="card p-3" style="width: 18rem;">
             <img src="../img/${item.imagen}" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="">${item.nombre}</h5>
               <p class="">${item.precio}</p>
-              <button class="carrito" id="btn-agregar${item.id}">Comprar</button>
+              <button class="carrito" id="btn-comprar${item.id}">Comprar</button>
 
             </div></article> 
             `
             ul.innerHTML += html;
 
         }
-      btnComprar();
+        btnComprar();
 }
-prendaSeleccionada(prendas)
+
+prendaSeleccionada(prendas);
+
+//declaro carrito 
+let carrito =[];
+
+//fc filtrar por nombres
+
+function filtrarNombre(arr, filtro) {
+
+    let filtrado = arr.filter((el)=>{
+        
+        return el.nombre.includes(filtro);
+        
+    });
+
+    return filtrado;
+    
+    
+}
+
+//eventos
+
+ingreso.addEventListener("input", ()=>{
+
+let prendaFiltro = filtrarNombre(prendas,ingreso.value);
+console.log(prendaFiltro);
+
+}
+)
+
+buscar.addEventListener("click",()=>{
+
+    let prendaFiltro = filtrarNombre(prendas,ingreso.value);
+    console.log(prendaFiltro);
+    ul.innerHTML="";
+    prendaSeleccionada(prendaFiltro);
+    
+    })
+//funcion para comprar y eventoo click
 
 function btnComprar(){
+ 
+
     prendas.forEach(prenda=>{
-        document.querySelector(`#btn-comprar${item.id}`).addEventListener("click",()=>{
-            agregarAlCarrito(prenda);
+        document.querySelector(`#btn-comprar${prenda.id}`).addEventListener("click",()=>{
+            cargarProductos(prenda);
         })
     })
 }
+
+//funcion de push
+
+function cargarProductos(prenda) {
+    
+    carrito.push(prenda);
+}
+
+cargarProductos();
 
 /*
 
