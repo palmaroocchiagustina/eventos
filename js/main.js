@@ -56,14 +56,14 @@ function prendaSeleccionada(arr) {
             <div class="card-body">
               <h5 class="">${item.nombre}</h5>
               <p class="">${item.precio}</p>
-              <button class="carrito" id="btn-agregar${item.id}">Comprar</button>
+              <button class="carrito" id="btn-comprar${item.id}">Comprar</button>
 
             </div></article> 
             `
             ul.innerHTML += html;
-
+         
         }
-    
+      
 }
 
 prendaSeleccionada(prendas);
@@ -100,4 +100,3 @@ ul.innerHTML="";
 prendaSeleccionada(prendaFiltro);
 
 })
-
