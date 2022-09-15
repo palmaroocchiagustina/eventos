@@ -1,21 +1,10 @@
 
 //
 
-const buscar = document.getElementById ("buscar");
-const input = document.getElementById ("ingreso");
-const card1 = document.getElementById ("remera");
-const card2 = document.getElementById ("blazer");
-const card3 = document.getElementById ("camperajeans");
-const card4 = document.getElementById ("jeans");
-const card5 = document.getElementById ("toprayas");
-const card6 = document.getElementById ("zapatillas");
-
-const imagen = document.getElementById("imagen");
-const nombre = document.getElementById("nombre");
-const precio = document.getElementById("precio");
-const comprar = document.getElementById("comprar");
+const buscar = document.querySelector ("#buscar");
+const input = document.querySelector ("#ingreso");
 const ul = document.querySelector("#lista");
-const div1 = document.getElementsByClassName("container");
+const div1 = document.querySelector(".container");
 
 
 
@@ -61,8 +50,9 @@ function prendaSeleccionada(arr) {
             ul.innerHTML += html;
 
         }
-      btnComprar();
-}
+
+        }
+
 
 prendaSeleccionada(prendas);
 //fc filtrar por nombres
@@ -76,7 +66,7 @@ function filtrarNombre(arr, filtro) {
     });
 
     return filtrado;
-    
+   
     
 }
 
@@ -99,24 +89,21 @@ prendaSeleccionada(prendaFiltro);
 
 })
 
-function btnComprar() {
+function btnComprar(filtrado) {
 
-  prendas.forEach(prenda => {
+  filtrado.forEach(prenda => {
     document.querySelector(`#btn-agregar${prenda.id}`).addEventListener("click",()=>{
-
-        cargarProductos(prenda);
+    cargarProductos(prenda);
     })
     
   });
 
 }
-
 let carrito=[];
+console.log(carrito);
 //funcion de push 
 
 function cargarProductos(prenda) {
     
     carrito.push(prenda);
 }
-
-cargarProductos();
