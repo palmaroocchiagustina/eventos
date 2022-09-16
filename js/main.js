@@ -48,7 +48,7 @@ function hacerCards() {
 }
 
 hacerCards();
-
+// funcion comprar
 function botonComprar() {
 
   prendas.forEach(prenda => {
@@ -62,6 +62,8 @@ function botonComprar() {
   
 }
 botonComprar();
+
+//agregar al carrito
 
 function agregarCarrito(prenda){
 
@@ -90,8 +92,8 @@ function agregarCarrito(prenda){
           `
         //el ultimo boton es para borrar de a uno (FALTA darle funcionalidad al boton ese)
     })
- localStorage.setItem("carro",JSON.stringify(carrito))
-  borrarPrenda()
+      localStorage.setItem("carro",JSON.stringify(carrito))
+     borrarPrenda()
 }
 
 function borrarPrenda(){
