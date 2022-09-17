@@ -86,6 +86,20 @@ function agregarCarrito(prenda){
   mostrarCarrito();
   }
 
+  //total carrito 
+function mostrarCarrito() {
+  const subTotal = carrito.reduce((acc, el) => {
+
+    return resultado = acc + el.precio;
+    
+    },0);
+    
+    carrito.push(subTotal);
+    console.log(carrito);
+}
+
+  
+/*
   function mostrarCarrito(){
     carro.innerHTML = "";
     carrito.forEach(prend=>{
@@ -102,7 +116,7 @@ function agregarCarrito(prenda){
       localStorage.setItem("carro",JSON.stringify(carrito))
      borrarPrenda()
 }
-
+*/
 function borrarPrenda(){
   carrito.forEach(prenda=>{
       document.querySelector(`#btn-borrar${prenda.id}`).addEventListener("click",()=>{
