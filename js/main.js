@@ -1,10 +1,15 @@
 //pre-entrega 2
 
 //const
+
+const ingreso = document.querySelector("#ingreso");
+const buscar = document.querySelector("#buscar");
+
+
+
 const cards = document.querySelector("#tarjetas");
 const carro = document.querySelector(".carrito");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
 //stock
 
 const prendas = [
@@ -46,8 +51,48 @@ function hacerCards() {
     
   });
 }
-
 hacerCards();
+
+/*
+// filtro nombre
+
+function filtrarNombre(arr, filtro) {
+
+  let filtrado = arr.filter((el)=>{
+     
+      return el.nombre.includes(filtro);
+      
+  });
+  
+    return filtrado;
+    
+
+  }
+
+  function ingresarPrenda() {
+    
+     ingreso.addEventListener("input",()=>{
+
+        let prendaFiltro = filtrarNombre(prendas,ingreso.value);
+        console.log(prendaFiltro);
+
+      })
+  
+  }
+
+ingresarPrenda();
+function botonBuscar() {
+
+     buscar.addEventListener("click",()=>{
+
+     agregarCarrito(prenda);
+     console.log(filtrado);
+
+     })
+  };
+  
+
+botonBuscar();*/
 // funcion comprar
 function botonComprar() {
 
@@ -59,7 +104,8 @@ function botonComprar() {
 
      })
   });
-  
+
+
 }
 botonComprar();
 
@@ -77,46 +123,41 @@ function agregarCarrito(prenda){
       prendFind.cantidad++;
   }
   console.log(carrito);
-  mostrarCarrito();
+  mostrarCarrito()
   }
 
-  function mostrarCarrito(){
-    carro.innerHTML = "";
-    carrito.forEach(prend=>{
-        carro.innerHTML += `<article><div class="card p-3" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="">Carrito</h5>
-          <p class="">${prend.precio * prend.cantidad}</p>
-          <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
-          <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
-          `
-        //el ultimo boton es para borrar de a uno (FALTA darle funcionalidad al boton ese)
-    })
-      localStorage.setItem("carro",JSON.stringify(carrito))
-     borrarPrenda()
+ 
+function mostrarCarrito(){
+  carro.innerHTML = "";
+  carrito.forEach(prend=>{
+      carro.innerHTML = `<article><div class="card p-3 container" style="width: 18rem;">
+      <div class="card-body">
+        <h3 class="">${prend.nombre}</h3>
+        <h4>CANTIDAD: ${prend.cantidad}</h4>
+        <h4 class="">$${prend.precio * prend.cantidad}</h4>
+        <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
+        <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
+      </div></article> 
+      `
+  
+  })
+  localStorage.setItem("carro",JSON.stringify(carrito))
+   borrarProducto()
 }
 
-function borrarPrenda(){
+function borrarProducto(){
   carrito.forEach(prenda=>{
       document.querySelector(`#btn-borrar${prenda.id}`).addEventListener("click",()=>{
-         let indice = carrito.findIndex(element=>element.id===prenda.id);
+          let indice = carrito.findIndex(element=>element.id===prenda.id);
           carrito.splice(indice,1);
-          mostrarCarrito();
+          mostrarCarrito()
       })
   })
 }
 
-mostrarCarrito();
 
 
-
-
-
-
-
-
-
-
+ 
 /*
   function mostrarCarrito(prenda) {
     
