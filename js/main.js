@@ -1,15 +1,13 @@
 //pre-entrega 2
 
 //const
-
-const ingreso = document.querySelector("#ingreso");
 const cards = document.querySelector("#tarjetas");
-const carro = document.querySelector("#carrito");
+const carro = document.querySelector(".carrito");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 const tituloCarrito = document.querySelector("#tituloCarrito");
 
 
-tituloCarrito.innerHTML = "<p>Carrito</p>"
+
 //stock
 
 const prendas = [
@@ -24,22 +22,23 @@ const prendas = [
 ]
 //pRODUCTOS (constructor)
 
-function Productos(imagen, nombre, precio, id) {
-    
-  this.imagen = imagen;
-  this.nombre = nombre;
-  this.precio = parseInt(precio);
-  this.id= id;
-  
+class Productos {
+  constructor(imagen, nombre, precio, id) {
+
+    this.imagen = imagen;
+    this.nombre = nombre;
+    this.precio = parseInt(precio);
+    this.id = id;
+
+  }
 }
-
-
 
 
 //modificar el DOM
 
-function hacerCards() {
-  prendas.forEach(prenda => {
+function hacerCards(arrayConPrendas) {
+  cards.innerHTML = "";
+  arrayConPrendas.forEach(prenda => {
 
     cards.innerHTML += `<article><div class="card p-3" style="width: 18rem;">
     <img src="../img/${prenda.imagen}" class="card-img-top" alt="...">
@@ -50,27 +49,30 @@ function hacerCards() {
 
     </div></article> 
     `
-
     
   });
+  botonComprar(arrayConPrendas); // ESTA LLAMADA ESTABA POR FUERA DE ESTA FUNCION, TE RECOMIENDO QUE LA COLOQUES DENTRO YA QUE COMO EL CODIGO ES SECUENCIAL, PRIMERO SE DEBEN GENERAR LAS CARDS ANTES DE ESCUCHAR EL EVENTO DEL BOTON 'COMPRAR'
 }
-hacerCards();
+
 
 // funcion comprar
-function botonComprar() {
+//AHORA LA FUNCION 'BOTON COMPRAR' RECIBE UN PARAMETRO. EL MISMO AL PRINCIPIO SERA EL ARRAY 'PRENDAS', PERO EN CASO DE QUE EL USUARIO USE EL FILTRO, SE ENVIA OTRO ARRAY ( ESO ESTA EN LA FUNCION 'ESCUCHAR INPUT ')
+function botonComprar(arrayConPrendas) {
 
-  prendas.forEach(prenda => {
+  arrayConPrendas.forEach(prenda => {
      document.querySelector(`#btn-agregar${prenda.id}`).addEventListener("click",()=>{
 
       agregarCarrito(prenda);
-     
-
+    
+//ENTONCES, EL ARRAY 'ARRAYCONPRENDAS' PUEDE COMPRENDER EL ARRAY 'PRENDAS', U EL ARRAY QUE ME DEVUELVA EL FILTER
      })
   });
-
-
+  
 }
-botonComprar();
+
+// titulo carrito
+
+tituloCarrito.innerHTML = "<p>Carrito</p>"
 
 //agregar al carrito
 
@@ -86,158 +88,56 @@ function agregarCarrito(prenda){
       prendFind.cantidad++;
   }
   console.log(carrito);
-  mostrarCarrito()
+  mostrarCarrito();
   }
 
-
-
-function mostrarCarrito(){
-  
-  carrito.forEach(prend=>{
-    const contenidoCarro = document.createElement('li')
-    carrito.innerHTML = `<div class="card p-3 container" style="width: 18rem;">
-    <div class="card-body">
-      <h3 class="">Carrito</h3>
-      <h4>CANTIDAD: ${prend.cantidad}</h4>
-      <h4 class="">$${prend.precio * prend.cantidad}</h4>
-      <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
-      <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
-    </div>
-  `
-  carro.innerHTML="";
-   carro.append(contenidoCarro);
-   
-});
+  function mostrarCarrito(params) {
+    
+    carrito.forEach(prend=>{
+      carro.innerHTML += `<article><div class="card p-3" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="">Carrito</h5>
+        <p class="">${prend.precio * prend.cantidad}</p>
+        <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
+        <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
+        `
+      //el ultimo boton es para borrar de a uno (FALTA darle funcionalidad al boton ese)
+      
+  })
+    localStorage.setItem("carro",JSON.stringify(carrito))
+   borrarPrenda()
+  }
 
   
-localStorage.setItem("carro",JSON.stringify(carrito))
- borrarPrenda()
 
-
- function borrarPrenda(){
+function borrarPrenda(){
   carrito.forEach(prenda=>{
       document.querySelector(`#btn-borrar${prenda.id}`).addEventListener("click",()=>{
-          let indice = carrito.findIndex(element=>element.id===prenda.id);
+         let indice = carrito.findIndex(element=>element.id===prenda.id);
           carrito.splice(indice,1);
-          mostrarCarrito()
+          mostrarCarrito();
       })
   })
-  }
-  
-  
-  
-  
-  /*
-  //
-  
-  const buscar = document.querySelector ("#buscar");
-  const input = document.querySelector ("#ingreso");
-  const ul = document.querySelector("#lista");
-  const div1 = document.querySelector(".container");
-  const div2 = document.querySelector(".carrito");
-  
-  //stock
-  
-  const prendas = [
-  
-    {imagen : "remera-negra.jpg", nombre: "remera",precio: 2000, id:"remera2000"},
-    {imagen : "top rayado.jpg",nombre : "top rayas",precio: 3000, id:"top_rayas3000"},
-    {imagen : "jeans.jpg",nombre : "jeans",precio: 10000,id: "jeans10000"},
-    {imagen : "campera de jeans.jpg",nombre : "campera de jeans",precio: 12000,id: "campera1-jeans12000"},
-    {imagen : "zapatillas cara.jpg",nombre : "zapatillas",precio: 20000, id:"zapatillas20000"},
-    {imagen : "blazer rosa.jpg",nombre : "blazer de lino",precio: 20000, id:"blazer_lino20000"},
-  
-  ]
-  
-  //pRODUCTOS (constructor)
-  
-  function Productos(imagen, nombre, precio, id) {
-    
-    this.imagen = imagen;
-    this.nombre = nombre;
-    this.precio = parseInt(precio);
-    this.id= id;
-    
-  }
-  
-  // modificar el DOM
-  
-  function prendaSeleccionada(arr) {
-    let html="";
-        for (const item of arr) {
-        
-            html=`<article><div class="card p-3" style="width: 18rem;">
-            <img src="../img/${item.imagen}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="">${item.nombre}</h5>
-              <p class="">${item.precio}</p>
-              <button class="carrito" id="btn-agregar${item.id}">Comprar</button>
-  
-            </div></article> 
-            `
-            ul.innerHTML += html;
-  
-        }
-      
-        }
-  
-  
-  prendaSeleccionada(prendas); //se pintan todas las tarjetas
-  
-  //fc filtrar por nombres
-  
-  function filtrarNombre(arr, filtro) {
-  
-    let filtrado = arr.filter((el)=>{
-       
-        return el.nombre.includes(filtro);
-        
-    });
-    
-    
-      return filtrado;
-  
-    }
-  
-  
-  //eventos
-  
-  ingreso.addEventListener("input", ()=>{
-  
-  let prendaFiltro = filtrarNombre(prendas,ingreso.value);
-  console.log(prendaFiltro);
-  
-  }
-  )
-  
-  buscar.addEventListener("click",()=>{
-  
-  let prendaFiltro = filtrarNombre(prendas,ingreso.value);
-  console.log(prendaFiltro);
-  ul.innerHTML="";
-  prendaSeleccionada(prendaFiltro); // se pintan solo las que estan filtradas
-  
-  })
-  
-  function btnComprar(prendas) {
-  
-  prendas.forEach(item => {
-    document.querySelector(`#btn-agregar${item.id}`).addEventListener("click",()=>{
-   //console.log("hola");
-     cargarProductos(filtrado);
-    })
-    
-  });
-  
-  }
-  btnComprar(prendas);
-  
-  let carrito=[];
-  console.log(carrito);
-  //funcion de push 
-  
-  function cargarProductos(prenda) {
-    
-    carrito.push(prenda);
-  }*/
 }
+
+hacerCards(prendas); // COMO LUEGO TENES QUE USAR UN FILTRO, PREFERI ENVIAR EL ARRAY 'PRENDAS' POR PARAMETRO, YA QUE ( LUEGO ) AL HACER UN FILTER TAMBIEN ME GENERA OTRO ARRAY, Y TAMBIEN SE LO ENVIARE POR PARAMETRO
+mostrarCarrito();
+
+/* FUNCIONALIDAD DEL FILTO */
+
+const input = document.querySelector ("#ingreso");
+
+
+function escucharInput (){
+  input.addEventListener("input",()=>{
+    hacerCards(prendas.filter(el=>el.nombre.includes(input.value))); // AQUI SE RENDERIZA NUEVAMENTE LOS PRODUCTOS QUE EL USUARIO PUEDE VER. LE ENVIO UN NUEVO ARRAY POR PARAMETRO.
+  })
+}
+
+escucharInput()
+
+
+
+
+
+
