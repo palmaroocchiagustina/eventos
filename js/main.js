@@ -3,13 +3,13 @@
 //const
 
 const ingreso = document.querySelector("#ingreso");
-const buscar = document.querySelector("#buscar");
-
-
-
 const cards = document.querySelector("#tarjetas");
-const carro = document.querySelector(".carrito");
+const carro = document.querySelector("#carrito");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+const tituloCarrito = document.querySelector("#tituloCarrito");
+
+
+tituloCarrito.innerHTML = "<p>Carrito</p>"
 //stock
 
 const prendas = [
@@ -34,6 +34,8 @@ function Productos(imagen, nombre, precio, id) {
 }
 
 
+
+
 //modificar el DOM
 
 function hacerCards() {
@@ -43,56 +45,17 @@ function hacerCards() {
     <img src="../img/${prenda.imagen}" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="">${prenda.nombre}</h5>
-      <p class="">${prenda.precio}</p>
+      <p class="">$${prenda.precio}</p>
       <button class="carrito" id="btn-agregar${prenda.id}">Comprar</button>
 
     </div></article> 
     `
+
     
   });
 }
 hacerCards();
 
-/*
-// filtro nombre
-
-function filtrarNombre(arr, filtro) {
-
-  let filtrado = arr.filter((el)=>{
-     
-      return el.nombre.includes(filtro);
-      
-  });
-  
-    return filtrado;
-    
-
-  }
-
-  function ingresarPrenda() {
-    
-     ingreso.addEventListener("input",()=>{
-
-        let prendaFiltro = filtrarNombre(prendas,ingreso.value);
-        console.log(prendaFiltro);
-
-      })
-  
-  }
-
-ingresarPrenda();
-function botonBuscar() {
-
-     buscar.addEventListener("click",()=>{
-
-     agregarCarrito(prenda);
-     console.log(filtrado);
-
-     })
-  };
-  
-
-botonBuscar();*/
 // funcion comprar
 function botonComprar() {
 
@@ -126,26 +89,32 @@ function agregarCarrito(prenda){
   mostrarCarrito()
   }
 
- 
-function mostrarCarrito(){
-  carro.innerHTML = "";
-  carrito.forEach(prend=>{
-      carro.innerHTML = `<article><div class="card p-3 container" style="width: 18rem;">
-      <div class="card-body">
-        <h3 class="">${prend.nombre}</h3>
-        <h4>CANTIDAD: ${prend.cantidad}</h4>
-        <h4 class="">$${prend.precio * prend.cantidad}</h4>
-        <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
-        <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
-      </div></article> 
-      `
-  
-  })
-  localStorage.setItem("carro",JSON.stringify(carrito))
-   borrarProducto()
-}
 
-function borrarProducto(){
+
+function mostrarCarrito(){
+  
+  carrito.forEach(prend=>{
+    const contenidoCarro = document.createElement('li')
+    carrito.innerHTML = `<div class="card p-3 container" style="width: 18rem;">
+    <div class="card-body">
+      <h3 class="">Carrito</h3>
+      <h4>CANTIDAD: ${prend.cantidad}</h4>
+      <h4 class="">$${prend.precio * prend.cantidad}</h4>
+      <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
+      <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
+    </div>
+  `
+  carro.innerHTML="";
+   carro.append(contenidoCarro);
+   
+});
+
+  
+localStorage.setItem("carro",JSON.stringify(carrito))
+ borrarPrenda()
+
+
+ function borrarPrenda(){
   carrito.forEach(prenda=>{
       document.querySelector(`#btn-borrar${prenda.id}`).addEventListener("click",()=>{
           let indice = carrito.findIndex(element=>element.id===prenda.id);
@@ -153,46 +122,24 @@ function borrarProducto(){
           mostrarCarrito()
       })
   })
-}
-
-
-
- 
-/*
-  function mostrarCarrito(prenda) {
-    
-    prendas.forEach(prend=>{
-      carro.innerHTML= "";
-     carro.innerHTML += `<article><div class="card p-3" style="width: 18rem;">
-    <div class="card-body">
-      <h5 class="">Carrito</h5>
-      <h6>Cantidad : ${prend.cantidad}</h6>
-      <p class="">${prend.precio * prend.cantidad}</p>
-      <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
-
-    </div></article> 
-    `
-
-    })
   }
-
-
-
-
-
-/*
-//
-
-const buscar = document.querySelector ("#buscar");
-const input = document.querySelector ("#ingreso");
-const ul = document.querySelector("#lista");
-const div1 = document.querySelector(".container");
-const div2 = document.querySelector(".carrito");
-
-//stock
-
-const prendas = [
-
+  
+  
+  
+  
+  /*
+  //
+  
+  const buscar = document.querySelector ("#buscar");
+  const input = document.querySelector ("#ingreso");
+  const ul = document.querySelector("#lista");
+  const div1 = document.querySelector(".container");
+  const div2 = document.querySelector(".carrito");
+  
+  //stock
+  
+  const prendas = [
+  
     {imagen : "remera-negra.jpg", nombre: "remera",precio: 2000, id:"remera2000"},
     {imagen : "top rayado.jpg",nombre : "top rayas",precio: 3000, id:"top_rayas3000"},
     {imagen : "jeans.jpg",nombre : "jeans",precio: 10000,id: "jeans10000"},
@@ -201,21 +148,21 @@ const prendas = [
     {imagen : "blazer rosa.jpg",nombre : "blazer de lino",precio: 20000, id:"blazer_lino20000"},
   
   ]
-
+  
   //pRODUCTOS (constructor)
-
-function Productos(imagen, nombre, precio, id) {
+  
+  function Productos(imagen, nombre, precio, id) {
     
     this.imagen = imagen;
     this.nombre = nombre;
     this.precio = parseInt(precio);
     this.id= id;
     
-}
-
-// modificar el DOM
-
-function prendaSeleccionada(arr) {
+  }
+  
+  // modificar el DOM
+  
+  function prendaSeleccionada(arr) {
     let html="";
         for (const item of arr) {
         
@@ -225,22 +172,22 @@ function prendaSeleccionada(arr) {
               <h5 class="">${item.nombre}</h5>
               <p class="">${item.precio}</p>
               <button class="carrito" id="btn-agregar${item.id}">Comprar</button>
-
+  
             </div></article> 
             `
             ul.innerHTML += html;
-
+  
         }
       
         }
-
-
-prendaSeleccionada(prendas); //se pintan todas las tarjetas
-
-//fc filtrar por nombres
-
-function filtrarNombre(arr, filtro) {
-
+  
+  
+  prendaSeleccionada(prendas); //se pintan todas las tarjetas
+  
+  //fc filtrar por nombres
+  
+  function filtrarNombre(arr, filtro) {
+  
     let filtrado = arr.filter((el)=>{
        
         return el.nombre.includes(filtro);
@@ -249,31 +196,31 @@ function filtrarNombre(arr, filtro) {
     
     
       return filtrado;
-
+  
     }
-
-
-//eventos
-
-ingreso.addEventListener("input", ()=>{
-
-let prendaFiltro = filtrarNombre(prendas,ingreso.value);
-console.log(prendaFiltro);
-
-}
-)
-
-buscar.addEventListener("click",()=>{
-
-let prendaFiltro = filtrarNombre(prendas,ingreso.value);
-console.log(prendaFiltro);
-ul.innerHTML="";
-prendaSeleccionada(prendaFiltro); // se pintan solo las que estan filtradas
-
-})
-
-function btnComprar(prendas) {
-
+  
+  
+  //eventos
+  
+  ingreso.addEventListener("input", ()=>{
+  
+  let prendaFiltro = filtrarNombre(prendas,ingreso.value);
+  console.log(prendaFiltro);
+  
+  }
+  )
+  
+  buscar.addEventListener("click",()=>{
+  
+  let prendaFiltro = filtrarNombre(prendas,ingreso.value);
+  console.log(prendaFiltro);
+  ul.innerHTML="";
+  prendaSeleccionada(prendaFiltro); // se pintan solo las que estan filtradas
+  
+  })
+  
+  function btnComprar(prendas) {
+  
   prendas.forEach(item => {
     document.querySelector(`#btn-agregar${item.id}`).addEventListener("click",()=>{
    //console.log("hola");
@@ -281,16 +228,16 @@ function btnComprar(prendas) {
     })
     
   });
-
-}
-btnComprar(prendas);
-
-let carrito=[];
-console.log(carrito);
-//funcion de push 
-
-function cargarProductos(prenda) {
+  
+  }
+  btnComprar(prendas);
+  
+  let carrito=[];
+  console.log(carrito);
+  //funcion de push 
+  
+  function cargarProductos(prenda) {
     
     carrito.push(prenda);
+  }*/
 }
-*/
