@@ -2,7 +2,7 @@
 
 //const
 const cards = document.querySelector("#tarjetas");
-const carro = document.querySelector(".carrito");
+const carro = document.querySelector("#carrito");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 const tituloCarrito = document.querySelector("#tituloCarrito");
 
@@ -24,6 +24,7 @@ function Productos(imagen, nombre, precio, id) {
     
   this.imagen = imagen;
   this.nombre = nombre;
+  this.cantidad = cantidad;
   this.precio = parseInt(precio);
   this.id= id;
   
@@ -47,11 +48,10 @@ function hacerCards(arrayConPrendas) {
     `
     
   });
-  botonComprar(arrayConPrendas); // ESTA LLAMADA ESTABA POR FUERA DE ESTA FUNCION, TE RECOMIENDO QUE LA COLOQUES DENTRO YA QUE COMO EL CODIGO ES SECUENCIAL, PRIMERO SE DEBEN GENERAR LAS CARDS ANTES DE ESCUCHAR EL EVENTO DEL BOTON 'COMPRAR'
+  botonComprar(arrayConPrendas); 
 }
 
 // funcion comprar
-//AHORA LA FUNCION 'BOTON COMPRAR' RECIBE UN PARAMETRO. EL MISMO AL PRINCIPIO SERA EL ARRAY 'PRENDAS', PERO EN CASO DE QUE EL USUARIO USE EL FILTRO, SE ENVIA OTRO ARRAY ( ESO ESTA EN LA FUNCION 'ESCUCHAR INPUT ')
 function botonComprar(arrayConPrendas) {
 
   arrayConPrendas.forEach(prenda => {
@@ -59,7 +59,7 @@ function botonComprar(arrayConPrendas) {
 
       agregarCarrito(prenda);
     
-//ENTONCES, EL ARRAY 'ARRAYCONPRENDAS' PUEDE COMPRENDER EL ARRAY 'PRENDAS', U EL ARRAY QUE ME DEVUELVA EL FILTER
+
      })
   });
   
@@ -86,27 +86,16 @@ function agregarCarrito(prenda){
   mostrarCarrito();
   }
 
-  //total carrito 
-function mostrarCarrito() {
-  const subTotal = carrito.reduce((acc, el) => {
 
-    return resultado = acc + el.precio;
-    
-    },0);
-    
-    carrito.push(subTotal);
-    console.log(carrito);
-}
-
-  
-/*
   function mostrarCarrito(){
     carro.innerHTML = "";
     carrito.forEach(prend=>{
-        carro.innerHTML += `<article><div class="card p-3" style="width: 18rem;">
+        carro.innerHTML += `<div class="list-group p-3" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="">Carrito</h5>
-          <p class="">${prend.precio * prend.cantidad}</p>
+          <h4 class="">Carrito</h4>
+          <h5 class="">${prend.nombre}</h5>
+          <p class="">Cantidad:${prend.cantidad}</p>
+          <p class="">El total de su compra es de :$${prend.precio * prend.cantidad}</p>
           <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
           <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
           `
@@ -115,8 +104,9 @@ function mostrarCarrito() {
     })
       localStorage.setItem("carro",JSON.stringify(carrito))
      borrarPrenda()
+   
 }
-*/
+
 function borrarPrenda(){
   carrito.forEach(prenda=>{
       document.querySelector(`#btn-borrar${prenda.id}`).addEventListener("click",()=>{
@@ -127,9 +117,33 @@ function borrarPrenda(){
   })
 }
 
-hacerCards(prendas); // COMO LUEGO TENES QUE USAR UN FILTRO, PREFERI ENVIAR EL ARRAY 'PRENDAS' POR PARAMETRO, YA QUE ( LUEGO ) AL HACER UN FILTER TAMBIEN ME GENERA OTRO ARRAY, Y TAMBIEN SE LO ENVIARE POR PARAMETRO
+hacerCards(prendas); 
 mostrarCarrito();
 
+
+
+/*
+function mostrarCarrito() {
+  const contenidoCarrito = document.createElement('div');
+  carrito.forEach(prend=>{
+    contenidoCarrito.innerHTML += `<div class="card p-3" style="width: 18rem;">
+    <div class="card-body">
+      <h4 class="">Carrito</h4>
+      <h5 class="">${prend.nombre}</h5>
+      <p class="">El total de tu compra es : $${prend.precio * prend.cantidad}</p>
+      <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
+      <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
+      `
+    //el ultimo boton es para borrar de a uno (FALTA darle funcionalidad al boton ese)
+    carro.innerHTML = "";
+    carro.append(contenidoCarrito);
+    
+})
+localStorage.setItem("carro",JSON.stringify(carrito));
+borrarPrenda();
+}
+
+*/
 /* FUNCIONALIDAD DEL FILTO */
 
 const input = document.querySelector ("#ingreso");
@@ -143,7 +157,16 @@ function escucharInput (){
 
 escucharInput()
 
+// ver si funciona formas de pago 
 
+const pago = [
+
+  { forma: "credito", descuento: 20 },
+  { forma: "debito", descuento: 20 },
+  { forma: "efectivo", descuento: 15 },
+  { forma: "transferencia", descuento: 15 },
+
+];
 
 
 
