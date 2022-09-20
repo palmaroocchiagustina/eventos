@@ -4,7 +4,6 @@
 const cards = document.querySelector("#tarjetas");
 const carro = document.querySelector("#carrito");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-const tituloCarrito = document.querySelector("#tituloCarrito");
 
 //stock
 
@@ -65,9 +64,6 @@ function botonComprar(arrayConPrendas) {
   
 }
 
-// titulo carrito
-
-tituloCarrito.innerHTML = "<p>Carrito</p>"
 
 //agregar al carrito
 
@@ -86,10 +82,28 @@ function agregarCarrito(prenda){
   mostrarCarrito();
   }
 
-
   function mostrarCarrito(){
     carro.innerHTML = "";
     carrito.forEach(prend=>{
+
+      carro.innerHTML += ` <div class="container text-center">
+      <div class="row">
+     <div class="col">
+     <h4 class="">${prend.nombre}</h4>
+     <img src="../img/${prend.imagen}" alt="..." style="width: 4rem">
+      </div>
+      <div class="col">
+      <p class="">Cantidad:${prend.cantidad}</p>
+      </div>
+      <div class="col">
+      <p class="">El total de su compra es de :$${prend.precio * prend.cantidad}</p>
+       </div>
+       <div class="col">
+       <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
+        </div>
+      </div>
+      </div>`
+      /*
         carro.innerHTML += `<div class="list-group p-3" style="width: 18rem;">
         <div class="card-body">
           <h4 class="">Carrito</h4>
@@ -98,7 +112,7 @@ function agregarCarrito(prenda){
           <p class="">El total de su compra es de :$${prend.precio * prend.cantidad}</p>
           <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
           <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
-          `
+          `*/
         //el ultimo boton es para borrar de a uno (FALTA darle funcionalidad al boton ese)
         
     })
@@ -117,33 +131,25 @@ function borrarPrenda(){
   })
 }
 
+
+// total carrito
+
+function totalCarrito() {
+
+  const total = carrito.reduce((acc, el) => {
+
+    return resultado = acc + el.precio * el.cantidad;
+    
+    },0);
+    carrito.push(total)
+  console.log(carrito);
+}
+
+
+
 hacerCards(prendas); 
 mostrarCarrito();
 
-
-
-/*
-function mostrarCarrito() {
-  const contenidoCarrito = document.createElement('div');
-  carrito.forEach(prend=>{
-    contenidoCarrito.innerHTML += `<div class="card p-3" style="width: 18rem;">
-    <div class="card-body">
-      <h4 class="">Carrito</h4>
-      <h5 class="">${prend.nombre}</h5>
-      <p class="">El total de tu compra es : $${prend.precio * prend.cantidad}</p>
-      <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
-      <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
-      `
-    //el ultimo boton es para borrar de a uno (FALTA darle funcionalidad al boton ese)
-    carro.innerHTML = "";
-    carro.append(contenidoCarrito);
-    
-})
-localStorage.setItem("carro",JSON.stringify(carrito));
-borrarPrenda();
-}
-
-*/
 /* FUNCIONALIDAD DEL FILTO */
 
 const input = document.querySelector ("#ingreso");
@@ -156,18 +162,6 @@ function escucharInput (){
 }
 
 escucharInput()
-
-// ver si funciona formas de pago 
-
-const pago = [
-
-  { forma: "credito", descuento: 20 },
-  { forma: "debito", descuento: 20 },
-  { forma: "efectivo", descuento: 15 },
-  { forma: "transferencia", descuento: 15 },
-
-];
-
 
 
 
