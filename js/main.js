@@ -3,6 +3,7 @@
 //const
 const cards = document.querySelector("#tarjetas");
 const carro = document.querySelector("#carrito");
+const total = document.querySelector("#totalCarrito");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 //stock
@@ -96,29 +97,26 @@ function agregarCarrito(prenda){
       <p class="">Cantidad:${prend.cantidad}</p>
       </div>
       <div class="col">
-      <p class="">El total de su compra es de :$${prend.precio * prend.cantidad}</p>
+      <p class="">$${prend.precio * prend.cantidad}</p>
        </div>
        <div class="col">
        <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
+       <button class="carrito" id="btn-borrarUnoSolo${prend.cantidad}">-</button>
         </div>
       </div>
       </div>`
-      /*
-        carro.innerHTML += `<div class="list-group p-3" style="width: 18rem;">
-        <div class="card-body">
-          <h4 class="">Carrito</h4>
-          <h5 class="">${prend.nombre}</h5>
-          <p class="">Cantidad:${prend.cantidad}</p>
-          <p class="">El total de su compra es de :$${prend.precio * prend.cantidad}</p>
-          <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
-          <button class="carrito" id="btn-borrarUnoSolo${prend.id}">-</button>
-          `*/
-        //el ultimo boton es para borrar de a uno (FALTA darle funcionalidad al boton ese)
         
     })
-      localStorage.setItem("carro",JSON.stringify(carrito))
-     borrarPrenda()
-   
+
+    let totalCarrito = carrito.reduce((acc, el) => acc + el.precio * el.cantidad,0)
+    total.innerHTML = `
+    <h5 class="">El total de su compra es $${totalCarrito}</h5>
+    `
+    console.log(totalCarrito);
+    localStorage.setItem('totalCarrito', JSON.stringify(totalCarrito))
+    localStorage.setItem("carro",JSON.stringify(carrito))
+     borrarPrenda();
+    
 }
 
 function borrarPrenda(){
@@ -132,32 +130,17 @@ function borrarPrenda(){
 }
 
 
-// total carrito
-
-function totalCarrito() {
-
-  const total = carrito.reduce((acc, el) => {
-
-    return resultado = acc + el.precio * el.cantidad;
-    
-    },0);
-    carrito.push(total)
-  console.log(carrito);
-}
-
-
-
 hacerCards(prendas); 
 mostrarCarrito();
 
-/* FUNCIONALIDAD DEL FILTO */
+/* FUNCIONALIDAD DEL FILTRO */
 
 const input = document.querySelector ("#ingreso");
 
 
 function escucharInput (){
   input.addEventListener("input",()=>{
-    hacerCards(prendas.filter(el=>el.nombre.includes(input.value))); // AQUI SE RENDERIZA NUEVAMENTE LOS PRODUCTOS QUE EL USUARIO PUEDE VER. LE ENVIO UN NUEVO ARRAY POR PARAMETRO.
+    hacerCards(prendas.filter(el=>el.nombre.includes(input.value))); 
   })
 }
 
