@@ -4,7 +4,7 @@
 const cards = document.querySelector("#tarjetas");
 const carro = document.querySelector("#carrito");
 const total = document.querySelector("#totalCarrito");
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []; // operador OR
 
 //stock
 
@@ -32,17 +32,19 @@ function Productos(imagen, nombre, precio, id) {
 
 
 //modificar el DOM
+// destructuring
 
 function hacerCards(arrayConPrendas) {
   cards.innerHTML = "";
   arrayConPrendas.forEach(prenda => {
+    let {imagen, nombre, precio,id} = prenda
 
     cards.innerHTML += `<article><div class="card p-3" style="width: 18rem;">
-    <img src="../img/${prenda.imagen}" class="card-img-top" alt="...">
+    <img src="../img/${imagen}" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="">${prenda.nombre}</h5>
-      <p class="">${prenda.precio}</p>
-      <button class="carrito" id="btn-agregar${prenda.id}">Comprar</button>
+      <h5 class="">${nombre}</h5>
+      <p class="">$${precio}</p>
+      <button class="carrito" id="btn-agregar${id}">Comprar</button>
 
     </div></article> 
     `
@@ -83,24 +85,26 @@ function agregarCarrito(prenda){
   mostrarCarrito();
   }
 
+//destructuring
+
   function mostrarCarrito(){
     carro.innerHTML = "";
     carrito.forEach(prend=>{
-
+      let {nombre, imagen, cantidad, id} =prend
       carro.innerHTML += ` <div class="container text-center">
       <div class="row">
      <div class="col">
-     <h4 class="">${prend.nombre}</h4>
-     <img src="../img/${prend.imagen}" alt="..." style="width: 4rem">
+     <h4 class="">${nombre}</h4>
+     <img src="../img/${imagen}" alt="..." style="width: 4rem">
       </div>
       <div class="col">
-      <p class="">Cantidad:${prend.cantidad}</p>
+      <p class="">Cantidad:${cantidad}</p>
       </div>
       <div class="col">
       <p class="">$${prend.precio * prend.cantidad}</p>
        </div>
        <div class="col">
-       <button class="carrito" id="btn-borrar${prend.id}">Borrar</button>
+       <button class="carrito" id="btn-borrar${id}">Borrar</button>
        <button class="carrito" id="btn-borrarUnoSolo${prend.cantidad}">-</button>
         </div>
       </div>
