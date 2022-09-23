@@ -115,9 +115,7 @@ function agregarCarrito(prenda){
         
     })
 
-   let totalCarrito = carrito.reduce((acc, el) => acc + el.precio * el.cantidad,0)
-  
-    console.log(totalCarrito);
+   
     localStorage.setItem('totalCarrito', JSON.stringify(totalCarrito))
     localStorage.setItem("carro",JSON.stringify(carrito))
      borrarPrenda();
@@ -126,9 +124,7 @@ function agregarCarrito(prenda){
 
 }
 
-function name() {
-  
-}
+
 
 function borrarPrenda(){
   carrito.forEach(prenda=>{
@@ -152,7 +148,7 @@ function borrarUno() {
        if(verificacion === true){
          
         carrito[indicePrenda].cantidad -- ;
-        console.log(carrito[indicePrenda].cantidad);
+       // console.log(carrito[indicePrenda].cantidad);
        
       
       }
@@ -176,7 +172,7 @@ function sumarUno() {
       if(verificacion === true){
          
         carrito[indicePrenda].cantidad ++ ;
-        console.log(carrito[indicePrenda].cantidad);
+       // console.log(carrito[indicePrenda].cantidad);
        
       
       }
