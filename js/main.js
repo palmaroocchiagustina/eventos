@@ -152,7 +152,7 @@ function borrarUno() {
       
       }
         mostrarCarrito();
-
+       
     })
   })
   
