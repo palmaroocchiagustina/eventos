@@ -101,12 +101,15 @@ function agregarCarrito(prenda){
       <p class="">Cantidad:${cantidad}</p>
       </div>
       <div class="col">
+      <button class="carrito btn btn-info" id="btn-borrarUno${cantidad}">-</button>
+      <button class="carrito btn btn-danger" id="btn-sumarUno${cantidad}">+</button>
+      </div>
+      <div class="col">
       <p class="">$${prend.precio * prend.cantidad}</p>
        </div>
        <div class="col">
-       <button class="carrito" id="btn-borrar${id}">Borrar</button>
-       <button class="carrito" id="btn-borrarUnoSolo${prend.cantidad}">-</button>
-        </div>
+       <button class="carrito btn btn-secondary" id="btn-borrar${id}">Vaciar carrito</button>
+      </div>
       </div>
       </div>`
         
@@ -120,7 +123,8 @@ function agregarCarrito(prenda){
     localStorage.setItem('totalCarrito', JSON.stringify(totalCarrito))
     localStorage.setItem("carro",JSON.stringify(carrito))
      borrarPrenda();
-    
+     borrarUno() 
+
 }
 
 function borrarPrenda(){
@@ -131,6 +135,29 @@ function borrarPrenda(){
           mostrarCarrito();
       })
   })
+}
+// FUNCION BORRAR DE A UNO (NO FUNCIONA)
+function borrarUno() {
+
+  carrito.forEach(prenda=>{
+    document.querySelector(`#btn-borrarUno${prenda.cantidad}`).addEventListener("click",()=>{
+      
+      let verificacion = carrito.some(prend=>prend.cantidad === prenda.cantidad);
+      let indicePrenda = carrito.indexOf(prenda);
+      if(verificacion === false){
+         
+        carrito[indicePrenda].cantidad - 1;
+        console.log(carrito[indicePrenda].cantidad);
+       
+      
+      }
+        mostrarCarrito();
+	
+
+
+    })
+  })
+  
 }
 
 
