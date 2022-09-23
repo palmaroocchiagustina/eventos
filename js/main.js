@@ -85,7 +85,7 @@ function agregarCarrito(prenda){
   mostrarCarrito();
   }
 
-//destructuring
+//Mostrar carrito
 
   function mostrarCarrito(){
     carro.innerHTML = "";
@@ -98,55 +98,60 @@ function agregarCarrito(prenda){
      <img src="../img/${imagen}" alt="..." style="width: 4rem">
       </div>
       <div class="col">
-      <p class="">Cantidad:${cantidad}</p>
+      <p class="">Cantidad: ${cantidad}</p>
       </div>
       <div class="col">
       <button class="carrito btn btn-info" id="btn-borrarUno${cantidad}">-</button>
       <button class="carrito btn btn-danger" id="btn-sumarUno${cantidad}">+</button>
       </div>
       <div class="col">
-      <p class="">$${prend.precio * prend.cantidad}</p>
-       </div>
-       <div class="col">
-       <button class="carrito btn btn-secondary" id="btn-borrar${id}">Vaciar carrito</button>
+      <p class="">El total de su carrito es: $${prend.precio * prend.cantidad}</p>
+      </div>
+      <div class="col">
+      <button class="carrito btn btn-secondary" id="btn-borrar${id}">Vaciar carrito</button>
       </div>
       </div>
       </div>`
         
     })
 
-    let totalCarrito = carrito.reduce((acc, el) => acc + el.precio * el.cantidad,0)
-    total.innerHTML = `
-    <h5 class="">El total de su compra es $${totalCarrito}</h5>
-    `
+   let totalCarrito = carrito.reduce((acc, el) => acc + el.precio * el.cantidad,0)
+  
     console.log(totalCarrito);
     localStorage.setItem('totalCarrito', JSON.stringify(totalCarrito))
     localStorage.setItem("carro",JSON.stringify(carrito))
      borrarPrenda();
-     borrarUno() 
+     borrarUno();
+     sumarUno();
 
+}
+
+function name() {
+  
 }
 
 function borrarPrenda(){
   carrito.forEach(prenda=>{
       document.querySelector(`#btn-borrar${prenda.id}`).addEventListener("click",()=>{
          let indice = carrito.findIndex(element=>element.id===prenda.id);
-          carrito.splice(indice,1);
+          carrito.splice(indice.cantidad,1);
           mostrarCarrito();
       })
   })
 }
-// FUNCION BORRAR DE A UNO (NO FUNCIONA)
+
+//funcion borrar de a una prenda
+
 function borrarUno() {
 
   carrito.forEach(prenda=>{
     document.querySelector(`#btn-borrarUno${prenda.cantidad}`).addEventListener("click",()=>{
       
-      let verificacion = carrito.some(prend=>prend.cantidad === prenda.cantidad);
+      let verificacion = carrito.some(prend=>prend.id === prenda.id);
       let indicePrenda = carrito.indexOf(prenda);
-      if(verificacion === false){
+       if(verificacion === true){
          
-        carrito[indicePrenda].cantidad - 1;
+        carrito[indicePrenda].cantidad -- ;
         console.log(carrito[indicePrenda].cantidad);
        
       
@@ -158,6 +163,29 @@ function borrarUno() {
   
 }
 
+
+//funcion sumar cantidad
+
+function sumarUno() {
+
+  carrito.forEach(prenda=>{
+    document.querySelector(`#btn-sumarUno${prenda.cantidad}`).addEventListener("click",()=>{
+      
+      let verificacion = carrito.some(prend=>prend.id === prenda.id);
+      let indicePrenda = carrito.indexOf(prenda);
+      if(verificacion === true){
+         
+        carrito[indicePrenda].cantidad ++ ;
+        console.log(carrito[indicePrenda].cantidad);
+       
+      
+      }
+        mostrarCarrito();
+       
+    })
+  })
+  
+}
 
 hacerCards(prendas); 
 mostrarCarrito();
@@ -173,7 +201,7 @@ function escucharInput (){
   })
 }
 
-escucharInput()
+escucharInput();
 
 
 
