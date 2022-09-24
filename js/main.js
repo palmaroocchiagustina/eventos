@@ -143,16 +143,19 @@ function borrarUno() {
   carrito.forEach(prenda=>{
     document.querySelector(`#btn-borrarUno${prenda.cantidad}`).addEventListener("click",()=>{
       
-      let verificacion = carrito.some(prenda=>seleccionado.id === prenda.id);
+      let verificacion = carrito.some(prend=>prend.id === prenda.id);
       let indicePrenda = carrito.indexOf(prenda);
        if(verificacion === true){
-         
-        carrito[indicePrenda].cantidad -- ;
-       // console.log(carrito[indicePrenda].cantidad);
-       
+        if((carrito[indicePrenda].cantidad) > 0){
+
+          carrito[indicePrenda].cantidad -- ;
+        } 
+        
+       console.log(carrito[indicePrenda].cantidad);
+       mostrarCarrito();
       
       }
-        mostrarCarrito();
+        
        
     })
   })
