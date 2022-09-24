@@ -3,7 +3,7 @@
 //const
 const cards = document.querySelector("#tarjetas");
 const carro = document.querySelector("#carrito");
-const total = document.querySelector("#totalCarrito");
+const total = document.querySelector("#totalCarritoDiv");
 let carrito = JSON.parse(localStorage.getItem("carrito")) || []; // operador OR
 
 //stock
@@ -53,6 +53,30 @@ function hacerCards(arrayConPrendas) {
   botonComprar(arrayConPrendas); 
 }
 
+/* FUNCIONALIDAD DEL FILTRO */
+
+const input = document.querySelector ("#ingreso");
+
+
+function escucharInput (){
+  input.addEventListener("input",()=>{
+    hacerCards(prendas.filter(el=>el.nombre.includes(input.value.toLowerCase()))); 
+  })
+}
+
+escucharInput();
+// ver si lo dejamos o no 
+const btnBuscar = document.querySelector("#btnBuscar");
+function escucharBuscar (){
+btnBuscar.addEventListener("click",()=>{
+ 
+  hacerCards(prendas.filter(el=>el.nombre.includes(input.value.toLowerCase()))); 
+
+  })
+}
+escucharBuscar();
+
+
 // funcion comprar
 function botonComprar(arrayConPrendas) {
 
@@ -101,30 +125,77 @@ function agregarCarrito(prenda){
       <p class="">Cantidad: ${cantidad}</p>
       </div>
       <div class="col">
-      <button class="carrito btn btn-info" id="btn-borrarUno${cantidad}">-</button>
-      <button class="carrito btn btn-danger" id="btn-sumarUno${cantidad}">+</button>
+      <button class="carrito btn btn-info" id="btn-borrarUno${id}">-</button>
+      <button class="carrito btn btn-danger" id="btn-sumarUno${id}">+</button>
       </div>
       <div class="col">
-      <p class="">El total de su carrito es: $${prend.precio * prend.cantidad}</p>
+      <p class="">$${prend.precio * prend.cantidad}</p>
       </div>
       <div class="col">
-      <button class="carrito btn btn-secondary" id="btn-borrar${id}">Vaciar carrito</button>
+      <button class="carrito btn btn-secondary" id="btn-borrar${id}">X</button>
       </div>
       </div>
       </div>`
         
     })
 
-   
-    localStorage.setItem('totalCarrito', JSON.stringify(totalCarrito))
     localStorage.setItem("carro",JSON.stringify(carrito))
-     borrarPrenda();
+    totalCarrito(); 
+    borrarPrenda();
      borrarUno();
      sumarUno();
+     vaciarCarrito();
 
 }
 
+    //TOTAL CARRITO 
 
+function totalCarrito() {
+  let totalCarrito = carrito.reduce((acc, el) => acc + el.precio * el.cantidad,0)
+    total.innerHTML = `
+    <div>
+    <h5>El total de su compra es $${totalCarrito}</h5> 
+    </div> 
+    `
+    console.log(totalCarrito);
+   
+    localStorage.setItem('totalCarrito', JSON.stringify(totalCarrito))
+}
+
+//VACIAR CARRITO
+//  libreria 
+
+function vaciarCarrito() {
+  carrito.forEach(prenda=>{
+    document.querySelector("#btnVaciar").addEventListener("click",()=>{
+      Swal.fire({
+        title: 'Estas seguro ?',
+        text: "Estas por vaciar tu carrito !",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, vaciar !'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire(
+            'Eliminaste tu carrito !',
+            'Te esperamos de nuevo. Gracias',
+            'success',)
+          let indice = carrito.findIndex(element=>element.id===prenda.id);
+          carrito.splice(indice.cantidad,1);
+          mostrarCarrito();
+          
+        }
+      })
+      
+       
+    })
+   
+})
+}
+
+// BORRAR POR GRUPO DE PRENDAS
 
 function borrarPrenda(){
   carrito.forEach(prenda=>{
@@ -136,12 +207,14 @@ function borrarPrenda(){
   })
 }
 
+
+
 //funcion borrar de a una prenda
 
 function borrarUno() {
 
   carrito.forEach(prenda=>{
-    document.querySelector(`#btn-borrarUno${prenda.cantidad}`).addEventListener("click",()=>{
+    document.querySelector(`#btn-borrarUno${prenda.id}`).addEventListener("click",()=>{
       
       let verificacion = carrito.some(prend=>prend.id === prenda.id);
       let indicePrenda = carrito.indexOf(prenda);
@@ -168,7 +241,7 @@ function borrarUno() {
 function sumarUno() {
 
   carrito.forEach(prenda=>{
-    document.querySelector(`#btn-sumarUno${prenda.cantidad}`).addEventListener("click",()=>{
+    document.querySelector(`#btn-sumarUno${prenda.id}`).addEventListener("click",()=>{
       
       let verificacion = carrito.some(prend=>prend.id === prenda.id);
       let indicePrenda = carrito.indexOf(prenda);
@@ -189,18 +262,27 @@ function sumarUno() {
 hacerCards(prendas); 
 mostrarCarrito();
 
-/* FUNCIONALIDAD DEL FILTRO */
 
-const input = document.querySelector ("#ingreso");
+//FINALIZAR COMPRA
 
-
-function escucharInput (){
-  input.addEventListener("input",()=>{
-    hacerCards(prendas.filter(el=>el.nombre.includes(input.value))); 
+function finalizarCompra() {
+ 
+    document.querySelector(`#btnFinalizarCompra`).addEventListener("click", ()=>{
+      console.log("hola");
   })
+   
+finalizarCompra();
+    /*  const { value: email } = await Swal.fire({
+        title: 'Input email address',
+        input: 'email',
+        inputLabel: 'Your email address',
+        inputPlaceholder: 'Enter your email address'
+      })
+      
+      if (email) {
+        Swal.fire(`Entered email: ${email}`)
+      }
+    */
 }
-
-escucharInput();
-
 
 
