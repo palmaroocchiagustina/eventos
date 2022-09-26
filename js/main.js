@@ -145,6 +145,8 @@ function agregarCarrito(prenda){
      borrarUno();
      sumarUno();
      vaciarCarrito();
+     finalizarCompra();
+   
 
 }
 
@@ -266,23 +268,22 @@ mostrarCarrito();
 //FINALIZAR COMPRA
 
 function finalizarCompra() {
- 
-    document.querySelector(`#btnFinalizarCompra`).addEventListener("click", ()=>{
-      console.log("hola");
+     document.querySelector("#btnFinalizarCompra").addEventListener("click", async ()=>{
+      
+
+  const { value: email } = await Swal.fire({
+    title: 'Input email address',
+    input: 'email',
+    inputLabel: 'Your email address',
+    inputPlaceholder: 'Enter your email address'
+  })
+  
+  if (email) {
+    Swal.fire(`Entered email: ${email}`)
+  }
+
   })
    
-finalizarCompra();
-    /*  const { value: email } = await Swal.fire({
-        title: 'Input email address',
-        input: 'email',
-        inputLabel: 'Your email address',
-        inputPlaceholder: 'Enter your email address'
-      })
-      
-      if (email) {
-        Swal.fire(`Entered email: ${email}`)
-      }
-    */
 }
 
 
