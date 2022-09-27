@@ -32,7 +32,7 @@ function Productos(imagen, nombre, precio, id) {
 
 
 //modificar el DOM
-// destructuring
+
 
 function hacerCards(arrayConPrendas) {
   cards.innerHTML = "";
@@ -44,7 +44,7 @@ function hacerCards(arrayConPrendas) {
     <div class="card-body">
       <h5 class="">${nombre}</h5>
       <p class="">$${precio}</p>
-      <button class="carrito" id="btn-agregar${id}">Comprar</button>
+      <button class="carrito btn btn-dark" id="btn-agregar${id}">Comprar</button>
 
     </div></article> 
     `
@@ -272,14 +272,14 @@ function finalizarCompra() {
       
 
   const { value: email } = await Swal.fire({
-    title: 'Input email address',
+    title: 'Ingresa tu email ',
     input: 'email',
-    inputLabel: 'Your email address',
-    inputPlaceholder: 'Enter your email address'
+    inputLabel: 'Enviaremos la confirmación de tu compra',
+    inputPlaceholder: 'nombre@gmail.com'
   })
   
   if (email) {
-    Swal.fire(`Entered email: ${email}`)
+    Swal.fire(`Revisá tu correo: ${email}`)
   }
 
   })
