@@ -42,9 +42,9 @@ function hacerCards(arrayConPrendas) {
     cards.innerHTML += `<article><div class="card p-3" style="width: 18rem;">
     <img src="../img/${imagen}" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="">${nombre.toLowerCase()}</h5>
+      <h5 class="">${nombre.toUpperCase()}</h5>
       <p class="">$${precio}</p>
-      <button class="carrito btn btn-dark" id="btn-agregar${id}">Comprar</button>
+      <button class="carrito btn btn-dark container" id="btn-agregar${id}">Comprar</button>
 
     </div></article> 
     `
@@ -154,8 +154,7 @@ function agregarCarrito(prenda){
 
 function totalCarrito() {
   let totalCarrito = carrito.reduce((acc, el) => acc + el.precio * el.cantidad,0)
-    total.innerHTML = `
-    <div>
+    total.innerHTML = `<div>
     <h5>El total de su compra es $${totalCarrito}</h5> 
     </div> 
     `
