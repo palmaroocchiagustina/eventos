@@ -42,7 +42,7 @@ function hacerCards(arrayConPrendas) {
     cards.innerHTML += `<article><div class="card p-3" style="width: 18rem;">
     <img src="../img/${imagen}" class="card-img-top" alt="...">
     <div class="card-body">
-      <h5 class="">${nombre}</h5>
+      <h5 class="">${nombre.toLowerCase()}</h5>
       <p class="">$${precio}</p>
       <button class="carrito btn btn-dark" id="btn-agregar${id}">Comprar</button>
 
