@@ -8,7 +8,7 @@ let carrito = JSON.parse(localStorage.getItem("carrito")) || []; // operador OR
 
 //stock
 
-const prendas = [
+/*const prendas = [
 
   {imagen : "remera-negra.jpg", nombre: "remera",precio: 2000, id:1},
   {imagen : "top rayado.jpg",nombre : "top rayas",precio: 3000, id:2},
@@ -17,7 +17,26 @@ const prendas = [
   {imagen : "zapatillas cara.jpg",nombre : "zapatillas",precio: 20000, id:5},
   {imagen : "blazer rosa.jpg",nombre : "blazer de lino",precio: 20000, id: 6},
 
-]
+]*/
+
+//FETCH
+
+const prendas = [];
+
+fetch("./js/data.json")
+.then(res=>res.json())
+.then(data=>{
+  data.forEach(el=>{
+
+    prendas.push(el);
+
+  })
+ hacerCards(data)
+})
+
+
+
+
 //pRODUCTOS (constructor)
 
 function Productos(imagen, nombre, precio, id) {
@@ -260,7 +279,7 @@ function sumarUno() {
   
 }
 
-hacerCards(prendas); 
+//hacerCards(prendas); 
 mostrarCarrito();
 
 
