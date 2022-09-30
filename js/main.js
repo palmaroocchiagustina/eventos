@@ -20,7 +20,7 @@ let carrito = JSON.parse(localStorage.getItem("carrito")) || []; // operador OR
 ]*/
 
 //FETCH
-
+/*
 const prendas = [];
 
 fetch("./js/data.json")
@@ -33,8 +33,25 @@ fetch("./js/data.json")
   })
  hacerCards(data)
 })
+*/
 
+// async await
+const prendas = [];
+const respuesta = async ()=>{
 
+const response = await fetch ("./js/data.json");
+
+const data = await response.json();
+data.forEach(el=>{
+
+  prendas.push(el);
+
+})
+
+hacerCards(data);
+
+}
+respuesta();
 
 
 //pRODUCTOS (constructor)
