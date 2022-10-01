@@ -7,7 +7,10 @@ const total = document.querySelector("#totalCarritoDiv");
 const formasPago = document.querySelector("#formasPago");
 const card = document.querySelector(".card");
 
+
+
 let carrito = JSON.parse(localStorage.getItem("carrito")) || []; 
+
 
 //stock
 
@@ -30,14 +33,7 @@ fetch("./js/data.json")
 .then(res=>res.json())
 .then(data=>{
   data.forEach(el=>{
-
-    prendas.push(el);
-
-  })
- hacerCards(data)
-})
 */
-
 // async await
 const prendas = [];
 const respuesta = async ()=>{
