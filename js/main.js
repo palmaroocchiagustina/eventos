@@ -4,7 +4,10 @@
 const cards = document.querySelector("#tarjetas");
 const carro = document.querySelector("#carrito");
 const total = document.querySelector("#totalCarritoDiv");
-let carrito = JSON.parse(localStorage.getItem("carrito")) || []; // operador OR
+const formasPago = document.querySelector("#formasPago");
+const card = document.querySelector(".card");
+
+let carrito = JSON.parse(localStorage.getItem("carrito")) || []; 
 
 //stock
 
@@ -181,12 +184,14 @@ function agregarCarrito(prenda){
      borrarUno();
      sumarUno();
      vaciarCarrito();
+     pagoEfectivo();
+     pagoCredito();
      finalizarCompra();
    
 
 }
 
-    //TOTAL CARRITO 
+//TOTAL CARRITO 
 
 function totalCarrito() {
   let totalCarrito = carrito.reduce((acc, el) => acc + el.precio * el.cantidad,0)
@@ -200,7 +205,6 @@ function totalCarrito() {
 }
 
 //VACIAR CARRITO
-//  libreria 
 
 function vaciarCarrito() {
   carrito.forEach(prenda=>{
@@ -307,9 +311,9 @@ function finalizarCompra() {
       
 
   const { value: email } = await Swal.fire({
-    title: 'Ingresa tu email ',
+    title: 'Ingresa tu email, para continuar con tu compra ',
     input: 'email',
-    inputLabel: 'Enviaremos la confirmación de tu compra',
+    inputLabel: 'Obtendrás mayor información sobre métodos de pago y envíos.',
     inputPlaceholder: 'nombre@gmail.com'
   })
   
@@ -321,4 +325,51 @@ function finalizarCompra() {
    
 }
 
+
+// formas de pago 
+
+const pago = document.createElement("p");
+
+pago.innerText = "Selecciona la forma de pago:";
+
+formasPago.append(pago);
+
+
+// pagar con efectivo 
+
+function pagoEfectivo() {
+  document.querySelector("#flexRadioDefault1").addEventListener("change",()=>{
+
+    let totalEfectivo = carrito.reduce((acc, el) => acc + el.precio * el.cantidad,0)
+    total.innerHTML = `<div>
+    <h5>El total de su compra es $${totalEfectivo}</h5> 
+    </div> 
+    `
+    localStorage.setItem('totalEfectivo', JSON.stringify(totalEfectivo))
+
+  })
+}
+
+// pagar con credito 
+
+function pagoCredito() {
+  document.querySelector("#flexRadioDefault2").addEventListener("change",()=>{
+
+    card.classList.add("active");
+    setTimeout(() => {
+      card.classList.remove("active");
+
+    }, 1500);
+
+    let totalCredito = carrito.reduce((acc, el) => acc + el.precio * el.cantidad * 1.20,0)
+    total.innerHTML = `<div>
+    <h5>El total de su compra es $${totalCredito}</h5> 
+    </div> 
+    `
+
+    localStorage.setItem('totalCredito', JSON.stringify(totalCredito))
+
+  
+  })
+}
 
